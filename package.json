@@ -11,8 +11,13 @@
     "test:coverage": "nyc npm test"
   },
   "nyc": {
-    "reporter": ["text", "html"],
-    "exclude": ["tests/**"]
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "exclude": [
+      "tests/**"
+    ]
   },
   "repository": {
     "type": "git",
