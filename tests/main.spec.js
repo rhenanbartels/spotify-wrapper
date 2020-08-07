@@ -42,21 +42,26 @@ describe('Spotify Wrapper', () => {
     });
 
     describe('Generic Search', () => {
+        let fetchStub;
+
+        beforeEach( () => {
+            fetchStub = sinon.stub(global, 'fetch');
+        });
+
+        afterEach( () => {
+            fetchStub.restore();
+        });
 
         it('shoud call fetch function', () => {
-            const fetchStub = sinon.stub(global, 'fetch');
             const artists = search();
 
             expect(fetchStub).to.have.been.calledOnce;
-
-            fetchStub.restore();
 
         });
 
         it('should receive the correct URL to fetch', () => {
 
             context('Single type per request', () => {
-                const fetchStub = sinon.stub(global, 'fetch');
                 const artists = search('AnnenMayKantereit', 'artist');
 
                 const expectedUrlArtist = 'https://api.spotify.com/v1/search?q=AnnenMayKantereit&type=artist';
@@ -66,11 +71,9 @@ describe('Spotify Wrapper', () => {
                 const albums = search('Chico Buarque', 'album');
                 expect(fetchStub).to.have.been.calledWith(expectedUrlAlbums);
 
-                fetchStub.restore();
             });
 
             context('Calling multiple types', () => {
-                const fetchStub = sinon.stub(global, 'fetch');
                 const expectedUrl = 'https://api.spotify.com/v1/search?q=AnnenMayKantereit&type=artist,album';
                 const artistAndAlbums = search('AnnenMayKantereit', ['artist', 'album']);
 
