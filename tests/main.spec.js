@@ -43,16 +43,18 @@ describe('Spotify Wrapper', () => {
 
     describe('Generic Search', () => {
         let fetchStub;
+        let promise;
 
         beforeEach( () => {
             fetchStub = sinon.stub(global, 'fetch');
+            promise = fetchStub.returns(Promise.resolve("API resp"));
         });
 
         afterEach( () => {
             fetchStub.restore();
         });
 
-        it('shoud call fetch function', () => {
+        it('should call fetch function', () => {
             const artists = search();
 
             expect(fetchStub).to.have.been.calledOnce;
