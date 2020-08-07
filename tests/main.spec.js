@@ -7,7 +7,13 @@ sinonStubPromise(sinon);
 
 global.fetch = require('node-fetch');
 
-import { search, searchAlbums, searchArtists, searchTracks, searchPlaylists } from '../src/main';
+import {
+    search,
+    searchAlbums,
+    searchArtists,
+    searchTracks,
+    searchPlaylists,
+} from '../src/main';
 
 describe('Spotify Wrapper', () => {
 
@@ -18,19 +24,19 @@ describe('Spotify Wrapper', () => {
 
         });
 
-        it('should exist the searchAlbums methos', () => {
+        it('should exist the searchAlbums method', () => {
             expect(searchAlbums).to.exist;
         });
 
-        it('should exist the searchAlgumns methos', () => {
+        it('should exist the searchArtists method', () => {
             expect(searchArtists).to.exist;
         });
 
-        it('should exist the searchAlgumns methos', () => {
+        it('should exist the searchTracks method', () => {
             expect(searchTracks).to.exist;
         });
 
-        it('should exist the searchAlgumns methos', () => {
+        it('should exist the searchPlaylists method', () => {
             expect(searchPlaylists).to.exist;
         });
     });
@@ -42,6 +48,18 @@ describe('Spotify Wrapper', () => {
             const artists = search();
 
             expect(fetchStub).to.have.been.calledOnce;
+
+            fetchStub.restore();
+
+        });
+
+        it('should receive the correct URL to fetch', () => {
+
+            const fetchStub = sinon.stub(global, 'fetch');
+            const artists = search('AnnenMayKantereit', 'artist');
+
+            const expectedUrl = 'https://api.spotify.com/v1/search?q=AnnenMayKantereit&type=artist';
+            expect(fetchStub).to.have.been.calledWith(expectedUrl);
 
         });
     });
